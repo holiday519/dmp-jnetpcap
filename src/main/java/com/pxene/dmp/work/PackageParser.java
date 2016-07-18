@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.PcapIf;
+import org.jnetpcap.packet.Payload;
 import org.jnetpcap.packet.PcapPacket;
 import org.jnetpcap.packet.PcapPacketHandler;
 import org.jnetpcap.packet.format.FormatUtils;
@@ -22,16 +23,17 @@ public class PackageParser {
 	public static void main(String[] args) {
 		System.out.println("####################begin#######################");
 		
-		if (args.length < 1) {
-			System.out.println("input network code");
-			System.exit(1);
-		}
-		if (!args[0].matches("[0-9]+")) {
-			System.out.println("network code must be 0-9");
-			System.exit(1);
-		}
-		
-		int code = Integer.parseInt(args[0]);
+//		if (args.length < 1) {
+//			System.out.println("input network code");
+//			System.exit(1);
+//		}
+//		if (!args[0].matches("[0-9]+")) {
+//			System.out.println("network code must be 0-9");
+//			System.exit(1);
+//		}
+//		
+//		int code = Integer.parseInt(args[0]);
+		int code = 2;
 		List<PcapIf> devs = new ArrayList<PcapIf>();
 		StringBuilder errsb = new StringBuilder();
 		int r = Pcap.findAllDevs(devs, errsb);
@@ -54,7 +56,7 @@ public class PackageParser {
 		
 		// 根据条件过滤
 		PcapBpfProgram program = new PcapBpfProgram();  
-		pcap.compile(program, "port 80", 0, 0xFFFFFF00); 
+		//pcap.compile(program, "port 80", 0, 0xFFFFFF00); 
 		pcap.setFilter(program);
 		
 		pcap.loop(0, new PcapPacketHandler<Object>() {
@@ -65,7 +67,8 @@ public class PackageParser {
 				Ip4 ip = new Ip4();
 				Tcp tcp = new Tcp();
 				Http http = new Http();
-				if (packet.hasHeader(http)) {
+				Payload payload = new Payload();
+				if (packet.hasHeader(http) && !http.isResponse()) {
 					packet.getHeader(ip);
 					String srcIP = FormatUtils.ip(ip.source());
 					String dstIP = FormatUtils.ip(ip.destination());
@@ -84,9 +87,15 @@ public class PackageParser {
 					String contentType = http.fieldValue(Http.Request.Content_Type);
 					String date = http.fieldValue(Http.Request.Date);
 					
+					String content = "";
+					if (packet.hasHeader(payload)) {
+						packet.getHeader(payload);
+						content = new String(payload.data());
+					}
+					
 					System.out.println(srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR
 							+ method + SEPARATOR + host + SEPARATOR + url + SEPARATOR + referer + SEPARATOR
-							+ userAgent + SEPARATOR + cookie + SEPARATOR + contentType);
+							+ userAgent + SEPARATOR + cookie + SEPARATOR + contentType + SEPARATOR + content + SEPARATOR + date);
 				}
 			}
 		}, "jnetpcap");
