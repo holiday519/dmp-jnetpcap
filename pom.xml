@@ -34,16 +34,55 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>jnetpcap.jar</groupId>
+			<artifactId>jnetpcap.jar</artifactId>
+			<version>1.4.r1390</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>jdk.tools</groupId>
+			<artifactId>jdk.tools</artifactId>
+			<version>1.7</version>
+			<scope>system</scope>
+			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+			<version>2.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-hdfs</artifactId>
+			<version>2.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-common</artifactId>
+			<version>2.5.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro</artifactId>
-			<version>1.7.7</version>
+			<version>1.7.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.avro/avro-tools -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro-tools</artifactId>
+			<version>1.7.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.avro/avro-ipc -->
 		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro-ipc</artifactId>
-			<version>1.7.7</version>
+			<version>1.7.6</version>
 		</dependency>
+
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -56,6 +95,39 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<!-- <plugin> <groupId>org.apache.avro</groupId> <artifactId>avro-maven-plugin</artifactId> 
+				<version>1.7.6</version> <executions> <execution> <phase>generate-sources</phase> 
+				<goals> <goal>schema</goal> </goals> <configuration> <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory> 
+				<outputDirectory>${project.basedir}/src/main/java/</outputDirectory> </configuration> 
+				</execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/resources/assembly.xml</descriptor>
+					</descriptors>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -63,7 +135,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.pxene.dmp.work.PackageParser</mainClass>
+							<mainClass>com.pxene.dmp.work.GetPackage</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

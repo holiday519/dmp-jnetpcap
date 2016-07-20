@@ -33,7 +33,7 @@ public class PackageParser {
 //		}
 //		
 //		int code = Integer.parseInt(args[0]);
-		int code = 2;
+		int code = 0;
 		List<PcapIf> devs = new ArrayList<PcapIf>();
 		StringBuilder errsb = new StringBuilder();
 		int r = Pcap.findAllDevs(devs, errsb);
@@ -48,6 +48,7 @@ public class PackageParser {
 		int flags = Pcap.MODE_PROMISCUOUS;
 		int timeout = 10 * 1000;
 		
+		//捕获一个网络数据包
 		Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errsb);
 		if (pcap == null) {
 			JOptionPane.showMessageDialog(null, errsb.toString(), "错误", JOptionPane.ERROR_MESSAGE);
