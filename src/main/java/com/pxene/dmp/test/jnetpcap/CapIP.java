@@ -1,4 +1,4 @@
-package com.pxene.dmp.test;
+package com.pxene.dmp.test.jnetpcap;
 
 import java.util.ArrayList;
 import java.util.List;
