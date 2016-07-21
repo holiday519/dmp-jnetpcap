@@ -1,5 +1,6 @@
 package com.pxene.dmp.test.jnetpcap;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +24,17 @@ public class PackageParser {
 	public static void main(String[] args) {
 		System.out.println("####################begin#######################");
 		
-//		if (args.length < 1) {
-//			System.out.println("input network code");
-//			System.exit(1);
-//		}
-//		if (!args[0].matches("[0-9]+")) {
-//			System.out.println("network code must be 0-9");
-//			System.exit(1);
-//		}
-//		
-//		int code = Integer.parseInt(args[0]);
-		int code = 0;
+		if (args.length < 1) {
+			System.out.println("input network code");
+			System.exit(1);
+		}
+		if (!args[0].matches("[0-9]+")) {
+			System.out.println("network code must be 0-9");
+			System.exit(1);
+		}
+		
+		int code = Integer.parseInt(args[0]);
+//		int code = 0;
 		List<PcapIf> devs = new ArrayList<PcapIf>();
 		StringBuilder errsb = new StringBuilder();
 		int r = Pcap.findAllDevs(devs, errsb);
@@ -57,7 +58,7 @@ public class PackageParser {
 		
 		// 根据条件过滤
 		PcapBpfProgram program = new PcapBpfProgram();  
-		//pcap.compile(program, "port 80", 0, 0xFFFFFF00); 
+		pcap.compile(program, "port 80", 0, 0xFFFFFF00); 
 		pcap.setFilter(program);
 		
 		pcap.loop(0, new PcapPacketHandler<Object>() {
@@ -69,29 +70,33 @@ public class PackageParser {
 				Tcp tcp = new Tcp();
 				Http http = new Http();
 				Payload payload = new Payload();
-				if (packet.hasHeader(http) && !http.isResponse()) {
+				if (packet.hasHeader(ip) && packet.hasHeader(tcp) && packet.hasHeader(http) && !http.isResponse()) {
 					packet.getHeader(ip);
-					String srcIP = FormatUtils.ip(ip.source());
-					String dstIP = FormatUtils.ip(ip.destination());
+					String srcIP = FormatUtils.ip(ip.source()) == null ? "" : FormatUtils.ip(ip.source()).trim();
+					String dstIP = FormatUtils.ip(ip.destination()) == null ? "" : FormatUtils.ip(ip.destination()).trim();
 					
 					packet.getHeader(tcp);
-					String srcPort = String.valueOf(tcp.source());
-					String dstPort = String.valueOf(tcp.destination());
+					String srcPort = String.valueOf(tcp.source()) == null ? "" : String.valueOf(tcp.source()).trim();
+					String dstPort = String.valueOf(tcp.destination()) == null ? "" : String.valueOf(tcp.destination()).trim();
 					
 					packet.getHeader(http);
-					String method = http.fieldValue(Http.Request.RequestMethod);
-					String host = http.fieldValue(Http.Request.Host);
-					String url = http.fieldValue(Http.Request.RequestUrl);
-					String referer = http.fieldValue(Http.Request.Referer);
-					String userAgent = http.fieldValue(Http.Request.User_Agent);
-					String cookie = http.fieldValue(Http.Request.Cookie);
-					String contentType = http.fieldValue(Http.Request.Content_Type);
-					String date = http.fieldValue(Http.Request.Date);
+					String method = http.fieldValue(Http.Request.RequestMethod) == null ? "" : http.fieldValue(Http.Request.RequestMethod).trim();
+					String host = http.fieldValue(Http.Request.Host) == null ? "" : http.fieldValue(Http.Request.Host).trim();
+					String url = http.fieldValue(Http.Request.RequestUrl) == null ? "" : http.fieldValue(Http.Request.RequestUrl).trim();
+					String referer = http.fieldValue(Http.Request.Referer) == null ? "" : http.fieldValue(Http.Request.Referer).trim();
+					String userAgent = http.fieldValue(Http.Request.User_Agent) == null ? "" : http.fieldValue(Http.Request.User_Agent).trim();
+					String cookie = http.fieldValue(Http.Request.Cookie) == null ? "" : http.fieldValue(Http.Request.Cookie).trim();
+					String contentType = http.fieldValue(Http.Request.Content_Type) == null ? "" : http.fieldValue(Http.Request.Content_Type).trim();
+					String date = http.fieldValue(Http.Request.Date) == null ? "" : http.fieldValue(Http.Request.Date).trim();
 					
 					String content = "";
 					if (packet.hasHeader(payload)) {
 						packet.getHeader(payload);
-						content = new String(payload.data());
+						try {
+							content = new String(payload.data(), "ISO8859-1").trim();
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
 					}
 					
 					System.out.println(srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR

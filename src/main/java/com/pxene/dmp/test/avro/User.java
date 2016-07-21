@@ -3,7 +3,7 @@
  * 
  * DO NOT EDIT DIRECTLY
  */
-package com.pxene.dmp.test.avro;  
+package com.pxene.dmp.test.avro;
 
 import org.apache.avro.AvroRuntimeException;
 import org.apache.avro.Schema;
@@ -18,244 +18,279 @@ import org.apache.avro.specific.SpecificRecordBuilderBase;
 @AvroGenerated
 public class User extends SpecificRecordBase implements SpecificRecord {
 
-  public static final Schema SCHEMA$ = new Parser().parse("{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"user.avro\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favorite_number\",\"type\":[\"int\",\"null\"]},{\"name\":\"favorite_color\",\"type\":[\"string\",\"null\"]}]}");
-  public static Schema getClassSchema() { return SCHEMA$; }
-  public CharSequence name;
-  public Integer favorite_number;
-  public CharSequence favorite_color;
+	public static final Schema SCHEMA$ = new Parser()
+			.parse("{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"user.avro\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favorite_number\",\"type\":[\"int\",\"null\"]},{\"name\":\"favorite_color\",\"type\":[\"string\",\"null\"]}]}");
 
-  /**
-   * Default constructor.  Note that this does not initialize fields
-   * to their default values from the schema.  If that is desired then
-   * one should use <code>newBuilder()</code>. 
-   */
-  public User() {}
+	public static Schema getClassSchema() {
+		return SCHEMA$;
+	}
 
-  /**
-   * All-args constructor.
-   */
-  public User(CharSequence name, Integer favorite_number, CharSequence favorite_color) {
-    this.name = name;
-    this.favorite_number = favorite_number;
-    this.favorite_color = favorite_color;
-  }
+	public CharSequence name;
+	public Integer favorite_number;
+	public CharSequence favorite_color;
 
-  public Schema getSchema() { return SCHEMA$; }
-  // Used by DatumWriter.  Applications should not call. 
-  public Object get(int field$) {
-    switch (field$) {
-    case 0: return name;
-    case 1: return favorite_number;
-    case 2: return favorite_color;
-    default: throw new AvroRuntimeException("Bad index");
-    }
-  }
-  // Used by DatumReader.  Applications should not call. 
-  @SuppressWarnings(value="unchecked")
-  public void put(int field$, Object value$) {
-    switch (field$) {
-    case 0: name = (CharSequence)value$; break;
-    case 1: favorite_number = (Integer)value$; break;
-    case 2: favorite_color = (CharSequence)value$; break;
-    default: throw new AvroRuntimeException("Bad index");
-    }
-  }
+	/**
+	 * Default constructor. Note that this does not initialize fields to their
+	 * default values from the schema. If that is desired then one should use
+	 * <code>newBuilder()</code>.
+	 */
+	public User() {
+	}
 
-  /**
-   * Gets the value of the 'name' field.
-   */
-  public CharSequence getName() {
-    return name;
-  }
+	/**
+	 * All-args constructor.
+	 */
+	public User(CharSequence name, Integer favorite_number,
+			CharSequence favorite_color) {
+		this.name = name;
+		this.favorite_number = favorite_number;
+		this.favorite_color = favorite_color;
+	}
 
-  /**
-   * Sets the value of the 'name' field.
-   * @param value the value to set.
-   */
-  public void setName(CharSequence value) {
-    this.name = value;
-  }
+	public Schema getSchema() {
+		return SCHEMA$;
+	}
 
-  /**
-   * Gets the value of the 'favorite_number' field.
-   */
-  public java.lang.Integer getFavoriteNumber() {
-    return favorite_number;
-  }
+	// Used by DatumWriter. Applications should not call.
+	public Object get(int field$) {
+		switch (field$) {
+		case 0:
+			return name;
+		case 1:
+			return favorite_number;
+		case 2:
+			return favorite_color;
+		default:
+			throw new AvroRuntimeException("Bad index");
+		}
+	}
 
-  /**
-   * Sets the value of the 'favorite_number' field.
-   * @param value the value to set.
-   */
-  public void setFavoriteNumber(Integer value) {
-    this.favorite_number = value;
-  }
+	// Used by DatumReader. Applications should not call.
+	@SuppressWarnings(value = "unchecked")
+	public void put(int field$, Object value$) {
+		switch (field$) {
+		case 0:
+			name = (CharSequence) value$;
+			break;
+		case 1:
+			favorite_number = (Integer) value$;
+			break;
+		case 2:
+			favorite_color = (CharSequence) value$;
+			break;
+		default:
+			throw new AvroRuntimeException("Bad index");
+		}
+	}
 
-  /**
-   * Gets the value of the 'favorite_color' field.
-   */
-  public java.lang.CharSequence getFavoriteColor() {
-    return favorite_color;
-  }
+	/**
+	 * Gets the value of the 'name' field.
+	 */
+	public CharSequence getName() {
+		return name;
+	}
 
-  /**
-   * Sets the value of the 'favorite_color' field.
-   * @param value the value to set.
-   */
-  public void setFavoriteColor(java.lang.CharSequence value) {
-    this.favorite_color = value;
-  }
+	/**
+	 * Sets the value of the 'name' field.
+	 * 
+	 * @param value
+	 *            the value to set.
+	 */
+	public void setName(CharSequence value) {
+		this.name = value;
+	}
 
-  /** Creates a new User RecordBuilder */
-  public static Builder newBuilder() {
-    return new Builder();
-  }
-  
-  /** Creates a new User RecordBuilder by copying an existing Builder */
-  public static Builder newBuilder(Builder other) {
-    return new Builder(other);
-  }
-  
-  /** Creates a new User RecordBuilder by copying an existing User instance */
-  public static Builder newBuilder(User other) {
-    return new Builder(other);
-  }
-  
-  /**
-   * RecordBuilder for User instances.
-   */
-  public static class Builder extends SpecificRecordBuilderBase<User>
-    implements RecordBuilder<User> {
+	/**
+	 * Gets the value of the 'favorite_number' field.
+	 */
+	public Integer getFavoriteNumber() {
+		return favorite_number;
+	}
 
-    private CharSequence name;
-    private Integer favorite_number;
-    private CharSequence favorite_color;
+	/**
+	 * Sets the value of the 'favorite_number' field.
+	 * 
+	 * @param value
+	 *            the value to set.
+	 */
+	public void setFavoriteNumber(Integer value) {
+		this.favorite_number = value;
+	}
 
-    /** Creates a new Builder */
-    private Builder() {
-      super(com.pxene.dmp.test.avro.User.SCHEMA$);
-    }
-    
-    /** Creates a Builder by copying an existing Builder */
-    private Builder(Builder other) {
-      super(other);
-      if (isValidValue(fields()[0], other.name)) {
-        this.name = data().deepCopy(fields()[0].schema(), other.name);
-        fieldSetFlags()[0] = true;
-      }
-      if (isValidValue(fields()[1], other.favorite_number)) {
-        this.favorite_number = data().deepCopy(fields()[1].schema(), other.favorite_number);
-        fieldSetFlags()[1] = true;
-      }
-      if (isValidValue(fields()[2], other.favorite_color)) {
-        this.favorite_color = data().deepCopy(fields()[2].schema(), other.favorite_color);
-        fieldSetFlags()[2] = true;
-      }
-    }
-    
-    /** Creates a Builder by copying an existing User instance */
-    private Builder(User other) {
-            super(com.pxene.dmp.test.avro.User.SCHEMA$);
-      if (isValidValue(fields()[0], other.name)) {
-        this.name = data().deepCopy(fields()[0].schema(), other.name);
-        fieldSetFlags()[0] = true;
-      }
-      if (isValidValue(fields()[1], other.favorite_number)) {
-        this.favorite_number = data().deepCopy(fields()[1].schema(), other.favorite_number);
-        fieldSetFlags()[1] = true;
-      }
-      if (isValidValue(fields()[2], other.favorite_color)) {
-        this.favorite_color = data().deepCopy(fields()[2].schema(), other.favorite_color);
-        fieldSetFlags()[2] = true;
-      }
-    }
+	/**
+	 * Gets the value of the 'favorite_color' field.
+	 */
+	public CharSequence getFavoriteColor() {
+		return favorite_color;
+	}
 
-    /** Gets the value of the 'name' field */
-    public CharSequence getName() {
-      return name;
-    }
-    
-    /** Sets the value of the 'name' field */
-    public Builder setName(CharSequence value) {
-      validate(fields()[0], value);
-      this.name = value;
-      fieldSetFlags()[0] = true;
-      return this; 
-    }
-    
-    /** Checks whether the 'name' field has been set */
-    public boolean hasName() {
-      return fieldSetFlags()[0];
-    }
-    
-    /** Clears the value of the 'name' field */
-    public Builder clearName() {
-      name = null;
-      fieldSetFlags()[0] = false;
-      return this;
-    }
+	/**
+	 * Sets the value of the 'favorite_color' field.
+	 * 
+	 * @param value
+	 *            the value to set.
+	 */
+	public void setFavoriteColor(CharSequence value) {
+		this.favorite_color = value;
+	}
 
-    /** Gets the value of the 'favorite_number' field */
-    public Integer getFavoriteNumber() {
-      return favorite_number;
-    }
-    
-    /** Sets the value of the 'favorite_number' field */
-    public Builder setFavoriteNumber(Integer value) {
-      validate(fields()[1], value);
-      this.favorite_number = value;
-      fieldSetFlags()[1] = true;
-      return this; 
-    }
-    
-    /** Checks whether the 'favorite_number' field has been set */
-    public boolean hasFavoriteNumber() {
-      return fieldSetFlags()[1];
-    }
-    
-    /** Clears the value of the 'favorite_number' field */
-    public Builder clearFavoriteNumber() {
-      favorite_number = null;
-      fieldSetFlags()[1] = false;
-      return this;
-    }
+	/** Creates a new User RecordBuilder */
+	public static Builder newBuilder() {
+		return new Builder();
+	}
 
-    /** Gets the value of the 'favorite_color' field */
-    public CharSequence getFavoriteColor() {
-      return favorite_color;
-    }
-    
-    /** Sets the value of the 'favorite_color' field */
-    public Builder setFavoriteColor(CharSequence value) {
-      validate(fields()[2], value);
-      this.favorite_color = value;
-      fieldSetFlags()[2] = true;
-      return this; 
-    }
-    
-    /** Checks whether the 'favorite_color' field has been set */
-    public boolean hasFavoriteColor() {
-      return fieldSetFlags()[2];
-    }
-    
-    /** Clears the value of the 'favorite_color' field */
-    public Builder clearFavoriteColor() {
-      favorite_color = null;
-      fieldSetFlags()[2] = false;
-      return this;
-    }
+	/** Creates a new User RecordBuilder by copying an existing Builder */
+	public static Builder newBuilder(Builder other) {
+		return new Builder(other);
+	}
 
-    @Override
-    public User build() {
-      try {
-        User record = new User();
-        record.name = fieldSetFlags()[0] ? this.name : (CharSequence) defaultValue(fields()[0]);
-        record.favorite_number = fieldSetFlags()[1] ? this.favorite_number : (Integer) defaultValue(fields()[1]);
-        record.favorite_color = fieldSetFlags()[2] ? this.favorite_color : (CharSequence) defaultValue(fields()[2]);
-        return record;
-      } catch (Exception e) {
-        throw new AvroRuntimeException(e);
-      }
-    }
-  }
+	/** Creates a new User RecordBuilder by copying an existing User instance */
+	public static Builder newBuilder(User other) {
+		return new Builder(other);
+	}
+
+	/**
+	 * RecordBuilder for User instances.
+	 */
+	public static class Builder extends SpecificRecordBuilderBase<User>
+			implements RecordBuilder<User> {
+
+		private CharSequence name;
+		private Integer favorite_number;
+		private CharSequence favorite_color;
+
+		/** Creates a new Builder */
+		private Builder() {
+			super(User.SCHEMA$);
+		}
+
+		/** Creates a Builder by copying an existing Builder */
+		private Builder(Builder other) {
+			super(other);
+			if (isValidValue(fields()[0], other.name)) {
+				this.name = data().deepCopy(fields()[0].schema(), other.name);
+				fieldSetFlags()[0] = true;
+			}
+			if (isValidValue(fields()[1], other.favorite_number)) {
+				this.favorite_number = data().deepCopy(fields()[1].schema(),
+						other.favorite_number);
+				fieldSetFlags()[1] = true;
+			}
+			if (isValidValue(fields()[2], other.favorite_color)) {
+				this.favorite_color = data().deepCopy(fields()[2].schema(),
+						other.favorite_color);
+				fieldSetFlags()[2] = true;
+			}
+		}
+
+		/** Creates a Builder by copying an existing User instance */
+		private Builder(User other) {
+			super(User.SCHEMA$);
+			if (isValidValue(fields()[0], other.name)) {
+				this.name = data().deepCopy(fields()[0].schema(), other.name);
+				fieldSetFlags()[0] = true;
+			}
+			if (isValidValue(fields()[1], other.favorite_number)) {
+				this.favorite_number = data().deepCopy(fields()[1].schema(),
+						other.favorite_number);
+				fieldSetFlags()[1] = true;
+			}
+			if (isValidValue(fields()[2], other.favorite_color)) {
+				this.favorite_color = data().deepCopy(fields()[2].schema(),
+						other.favorite_color);
+				fieldSetFlags()[2] = true;
+			}
+		}
+
+		/** Gets the value of the 'name' field */
+		public CharSequence getName() {
+			return name;
+		}
+
+		/** Sets the value of the 'name' field */
+		public Builder setName(CharSequence value) {
+			validate(fields()[0], value);
+			this.name = value;
+			fieldSetFlags()[0] = true;
+			return this;
+		}
+
+		/** Checks whether the 'name' field has been set */
+		public boolean hasName() {
+			return fieldSetFlags()[0];
+		}
+
+		/** Clears the value of the 'name' field */
+		public Builder clearName() {
+			name = null;
+			fieldSetFlags()[0] = false;
+			return this;
+		}
+
+		/** Gets the value of the 'favorite_number' field */
+		public Integer getFavoriteNumber() {
+			return favorite_number;
+		}
+
+		/** Sets the value of the 'favorite_number' field */
+		public Builder setFavoriteNumber(Integer value) {
+			validate(fields()[1], value);
+			this.favorite_number = value;
+			fieldSetFlags()[1] = true;
+			return this;
+		}
+
+		/** Checks whether the 'favorite_number' field has been set */
+		public boolean hasFavoriteNumber() {
+			return fieldSetFlags()[1];
+		}
+
+		/** Clears the value of the 'favorite_number' field */
+		public Builder clearFavoriteNumber() {
+			favorite_number = null;
+			fieldSetFlags()[1] = false;
+			return this;
+		}
+
+		/** Gets the value of the 'favorite_color' field */
+		public CharSequence getFavoriteColor() {
+			return favorite_color;
+		}
+
+		/** Sets the value of the 'favorite_color' field */
+		public Builder setFavoriteColor(CharSequence value) {
+			validate(fields()[2], value);
+			this.favorite_color = value;
+			fieldSetFlags()[2] = true;
+			return this;
+		}
+
+		/** Checks whether the 'favorite_color' field has been set */
+		public boolean hasFavoriteColor() {
+			return fieldSetFlags()[2];
+		}
+
+		/** Clears the value of the 'favorite_color' field */
+		public Builder clearFavoriteColor() {
+			favorite_color = null;
+			fieldSetFlags()[2] = false;
+			return this;
+		}
+
+		@Override
+		public User build() {
+			try {
+				User record = new User();
+				record.name = fieldSetFlags()[0] ? this.name
+						: (CharSequence) defaultValue(fields()[0]);
+				record.favorite_number = fieldSetFlags()[1] ? this.favorite_number
+						: (Integer) defaultValue(fields()[1]);
+				record.favorite_color = fieldSetFlags()[2] ? this.favorite_color
+						: (CharSequence) defaultValue(fields()[2]);
+				return record;
+			} catch (Exception e) {
+				throw new AvroRuntimeException(e);
+			}
+		}
+	}
 }
