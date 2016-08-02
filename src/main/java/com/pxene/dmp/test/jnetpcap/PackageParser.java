@@ -92,11 +92,7 @@ public class PackageParser {
 					String content = "";
 					if (packet.hasHeader(payload)) {
 						packet.getHeader(payload);
-						try {
-							content = new String(payload.data(), "ISO8859-1").trim();
-						} catch (UnsupportedEncodingException e) {
-							e.printStackTrace();
-						}
+						content = payload.getUTF8String(0, payload.size());
 					}
 					
 					System.out.println(srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR

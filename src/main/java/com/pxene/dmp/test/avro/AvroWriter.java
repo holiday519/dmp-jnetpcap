@@ -14,19 +14,17 @@ public class AvroWriter {
 	public static void main(String[] args) throws IOException {
 		User u1 = new User();
 		u1.setName("ningyu");
-//		u1.setFavorite_number(128);
-//		u1.setFavorite_color("black");
+		u1.setFavoriteNumber(128);
+		u1.setFavoriteColor("black");
 		User u2 = new User();
 		u2.setName("chenjinghui");
-//		u2.setFavorite_number(256);
-//		u2.setFavorite_color("red");
+		u2.setFavoriteNumber(256);
+		u2.setFavoriteColor("red");
 		
 		DatumWriter<User> userDatumWriter = new SpecificDatumWriter<User>(User.class);
 		DataFileWriter<User> dataFileWriter = new DataFileWriter<User>(userDatumWriter);
-		Parser parser = new Parser();
-		Schema schema = parser.parse(AvroWriter.class.getResourceAsStream("User.avsc"));
 		
-		dataFileWriter.create(schema, new File("users.avro"));
+		dataFileWriter.create(User.getClassSchema(), new File("users.avro"));
 		dataFileWriter.append(u1);
 		dataFileWriter.append(u2);
 		dataFileWriter.close();
