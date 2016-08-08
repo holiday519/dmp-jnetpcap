@@ -1,6 +1,5 @@
 package com.pxene.dmp.test.jnetpcap;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import org.jnetpcap.protocol.tcpip.Tcp;
 public class PackageParser {
 	
 	private static final String SEPARATOR = "|";
-
+	
 	public static void main(String[] args) {
 		System.out.println("####################begin#######################");
 		
@@ -34,7 +33,6 @@ public class PackageParser {
 		}
 		
 		int code = Integer.parseInt(args[0]);
-//		int code = 0;
 		List<PcapIf> devs = new ArrayList<PcapIf>();
 		StringBuilder errsb = new StringBuilder();
 		int r = Pcap.findAllDevs(devs, errsb);

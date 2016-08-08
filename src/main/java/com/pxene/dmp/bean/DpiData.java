@@ -41,19 +41,16 @@ public class DpiData {
 		this.date = date == null ? "" : date;
 	}
 
-	public static boolean isHttpPackage(PcapPacket packet) {
-		Ip4 ip = new Ip4();
-		Tcp tcp = new Tcp();
-		Http http = new Http();
-		
-		return packet.hasHeader(ip) && packet.hasHeader(tcp) && packet.hasHeader(http) && !http.isResponse();
-	}
-	
-	public static DpiData getHttpPackage(PcapPacket packet) {
+	// 解析packet
+	public static DpiData parsePacket(PcapPacket packet) {
 		Ip4 ip = new Ip4();
 		Tcp tcp = new Tcp();
 		Http http = new Http();
 		Payload payload = new Payload();
+		
+		if (!packet.hasHeader(ip) || !packet.hasHeader(tcp) || !packet.hasHeader(http) || http.isResponse()) {
+			return null;
+		}
 		
 		packet.getHeader(ip);
 		packet.getHeader(tcp);

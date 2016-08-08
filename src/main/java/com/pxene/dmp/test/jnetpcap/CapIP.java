@@ -8,10 +8,8 @@ import org.jnetpcap.PcapIf;
 
 public class CapIP {
 
-	private static final String LOG_PREFIX = "<=ee-debug=>";
-
 	public static void main(String[] args) {
-		System.out.println(LOG_PREFIX + "begin");
+		System.out.println("####################begin#######################");
 
 		StringBuilder errbuf = new StringBuilder();
 		List<PcapIf> ifs = new ArrayList<PcapIf>(); // Will hold list of devices
@@ -26,6 +24,6 @@ public class CapIP {
 			}
 		}
 
-		System.out.println(LOG_PREFIX + "end");
+		System.out.println("####################end#######################");
 	}
 }
