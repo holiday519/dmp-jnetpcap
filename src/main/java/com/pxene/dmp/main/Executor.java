@@ -6,9 +6,11 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.jnetpcap.Pcap;
+import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.packet.Payload;
 import org.jnetpcap.packet.PcapPacket;
@@ -18,6 +20,7 @@ import org.jnetpcap.protocol.network.Ip4;
 import org.jnetpcap.protocol.tcpip.Http;
 import org.jnetpcap.protocol.tcpip.Tcp;
 
+import com.pxene.dmp.common.DateUtils;
 import com.pxene.dmp.common.StringUtils;
 
 public class Executor {
@@ -27,7 +30,7 @@ public class Executor {
 	private static final Tcp TCP = new Tcp();
 	private static final Http HTTP = new Http();
 	private static final Payload PAYLOAD = new Payload();
-	private static final String TOPIC = "";
+	private static final String TOPIC = "fixed_data";
 	
 	private static Producer<String, String> producer;
 	
@@ -44,9 +47,19 @@ public class Executor {
 		}
 		// kafka producer
 		Properties props = new Properties();
-		props.put("bootstrap.servers", "");
+		props.put("bootstrap.servers", "dmp28:9092,dmp29:9092,dmp30:9092");
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		// 256MB
+		props.put("buffer.memory", 268435456L);
+		props.put("retries", 1);
+		// 4MB
+		props.put("max.request.size", 4194304);
+		// 1MB
+		props.put("receive.buffer.bytes", 1048576);
+		// 4MB
+		props.put("send.buffer.bytes", 4194304);
+//		producer = new KafkaProducer<String, String>(props);
 		
 		int code = Integer.parseInt(args[0]);
 		List<PcapIf> devs = new ArrayList<PcapIf>();
@@ -97,8 +110,7 @@ public class Executor {
 					String userAgent = StringUtils.null2Empty(HTTP.fieldValue(Http.Request.User_Agent));
 					String cookie = StringUtils.null2Empty(HTTP.fieldValue(Http.Request.Cookie));
 					String contentType = StringUtils.null2Empty(HTTP.fieldValue(Http.Request.Content_Type));
-					String date = StringUtils.null2Empty(HTTP.fieldValue(Http.Request.Date));
-					
+					//String date = StringUtils.null2Empty(HTTP.fieldValue(Http.Request.Date));
 					String content = "";
 					if (packet.hasHeader(PAYLOAD)) {
 						packet.getHeader(PAYLOAD);
@@ -107,14 +119,15 @@ public class Executor {
 							content = "";
 						}
 					}
+					String date = DateUtils.getCurrentTime("YYYY-MM-dd HH:mm:ss.SSSSSS");
 					
-					producer.send(new ProducerRecord<String, String>(TOPIC, srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR
-							+ method + SEPARATOR + host + SEPARATOR + url + SEPARATOR + referer + SEPARATOR
-							+ userAgent + SEPARATOR + cookie + SEPARATOR + contentType + SEPARATOR + content + SEPARATOR + date));
-					
-//					System.out.println(srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR
+//					producer.send(new ProducerRecord<String, String>(TOPIC, srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR
 //							+ method + SEPARATOR + host + SEPARATOR + url + SEPARATOR + referer + SEPARATOR
-//							+ userAgent + SEPARATOR + cookie + SEPARATOR + contentType + SEPARATOR + content + SEPARATOR + date);
+//							+ userAgent + SEPARATOR + cookie + SEPARATOR + contentType + SEPARATOR + content + SEPARATOR + date));
+					
+					System.out.println(srcIP + SEPARATOR + dstIP + SEPARATOR + srcPort + SEPARATOR + dstPort + SEPARATOR
+							+ method + SEPARATOR + host + SEPARATOR + url + SEPARATOR + referer + SEPARATOR
+							+ userAgent + SEPARATOR + cookie + SEPARATOR + contentType + SEPARATOR + content + SEPARATOR + date);
 				}
 			}
 		}, "jnetpcap");

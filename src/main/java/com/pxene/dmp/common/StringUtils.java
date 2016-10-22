@@ -10,4 +10,8 @@ public class StringUtils {
 		return !str.matches("[ 0-9a-zA-Z`~!@#$%^&*()\\-_=+\\[{\\]}\\\\|;:'\",<.>/?]*");
 	}
 	
+	public static void main(String[] args) {
+		System.out.println(System.currentTimeMillis());
+	}
+	
 }
